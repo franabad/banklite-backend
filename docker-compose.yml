@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db-users:
+    container_name: db-users
+    image: postgres:15.2
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: users_db
+      POSTGRES_USER: fabadmed
+      POSTGRES_PASSWORD: fabadmed
+    ports:
+      - "5431:5432"
+
+  db-accounts:
+    container_name: db-accounts
+    image: mysql:8.0.33
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: accounts_db
+      MYSQL_USER: fabadmed
+      MYSQL_PASSWORD: fabadmed
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3307"
+
+  db-transactions:
+    container_name: db-transactions
+    image: mysql:8.0.33
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: transactions_db
+      MYSQL_USER: fabadmed
+      MYSQL_PASSWORD: fabadmed
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3308:3308"
