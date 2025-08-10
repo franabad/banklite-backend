@@ -6,4 +6,4 @@ FROM eclipse-temurin:17-jdk-focal
 COPY target/users-service-0.0.1-SNAPSHOT.jar app-users.jar
 
 # 3. Indicamos el comando que se ejecutará cuando arranque el contenedor
-ENTRYPOINT ["java","-jar","/app-users.jar"]
+ENTRYPOINT ["java","-jar","/app-users.jar", "--spring.profiles.active=prod"]
