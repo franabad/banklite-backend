@@ -34,9 +34,9 @@ public class JwtService {
 
     private String buildToken(UserDTO userDto, final long jwtExpiration) {
 
-        if (userDto instanceof UserDTO user) {
+        if (userDto != null) {
             return Jwts.builder()
-                    .subject(user.getNif())
+                    .subject(((UserDTO) userDto).getNif())
                     .issuedAt(new Date(System.currentTimeMillis()))
                     .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                     .signWith(getSignInKey())
