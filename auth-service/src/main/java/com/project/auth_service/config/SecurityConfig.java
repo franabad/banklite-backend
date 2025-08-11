@@ -32,6 +32,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // TO DO: Adaptar para prod
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
