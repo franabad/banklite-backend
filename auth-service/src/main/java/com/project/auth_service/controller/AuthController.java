@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/")
 public class AuthController {
 
     private final AuthServiceImpl authService;
