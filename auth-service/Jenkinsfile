@@ -25,28 +25,28 @@ pipeline {
 //                 git branch: 'main', url: 'https://github.com/franabad/banklite-backend.git'
 //             }
 //         }
-        stage('Check changes in auth-service') {
-            steps {
-                script {
-                    // Lee el payload del webhook
-                    def payload = readJSON text: env.GITHUB_PAYLOAD
+         stage('Check changes in auth-service') {
+             steps {
+                 script {
+                     // Obtén el conjunto de cambios del commit
+                     def changeSet = github.getChangeSet()
 
-                    // Extrae los archivos modificados
-                    def modifiedFiles = payload.commits.collectMany { it.modified + it.added + it.removed }
+                     // Filtra los archivos modificados, añadidos o eliminados
+                     def modifiedFiles = changeSet.collect { it.getPath() }
 
-                    // Filtra los cambios en la carpeta auth-service
-                    def relevantChanges = modifiedFiles.findAll { it.startsWith('auth-service/') }
+                     // Filtra los cambios en la carpeta del microservicio
+                     def relevantChanges = modifiedFiles.findAll { it.startsWith('auth-service/') }
 
-                    if (relevantChanges.isEmpty()) {
-                        echo "No changes detected in auth-service. Skipping pipeline."
-                        currentBuild.result = 'SUCCESS'
-                        error("No relevant changes to process.")
-                    } else {
-                        echo "Changes detected in auth-service:\n${relevantChanges.join('\n')}"
-                    }
-                }
-            }
-        }
+                     if (relevantChanges.isEmpty()) {
+                         echo "No changes detected in auth-service. Skipping pipeline."
+                         currentBuild.result = 'SUCCESS'
+                         error("No relevant changes to process.")
+                     } else {
+                         echo "Changes detected in auth-service:\n${relevantChanges.join('\n')}"
+                     }
+                 }
+             }
+         }
 
         stage('Build project') {
             steps {
