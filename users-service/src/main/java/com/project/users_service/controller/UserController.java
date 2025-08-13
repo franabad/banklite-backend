@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 // FIX ME: Later this has to change and set a global configuration with Spring Security
+// This is a test for Jenkins
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1")
