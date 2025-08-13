@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'maven 3.9.11'
+        // jdk 'jdk17'
+    }
+
+    triggers {
+        githubPush()
+    }
+
+    environment {
+        REGISTRY = "registry.franabad.duckdns.org"   // tu registry selfhosted
+        SERVICE = "auth-service"           // nombre de tu microservicio
+        IMAGE_TAG = "latest"
+        SSH_USER = "franabad"                       // usuario de la Raspberry
+        SSH_HOST = "192.168.1.10"             // IP de la Raspberry
+        SSH_KEY_ID = "franabad-raspberry"           // ID de la clave en Jenkins Credentials
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/franabad/banklite-backend.git'
+            }
+        }
+
+        stage('Build project') {
+
+            steps {
+                sh """
+                    cd ./$SERVICE
+                    mvn clean package -DskipTests
+                """
+            }
+        }
+
+        stage('Build and push Docker image') {
+            steps {
+                // sh """
+                //     docker -H tcp://host.docker.internal:2375 buildx create --name buildx_buildkit_tender_heisenberg0 --driver docker-container --use
+                //     docker -H tcp://host.docker.internal:2375 buildx build --platform linux/arm64 -t $REGISTRY/$SERVICE:$IMAGE_TAG --push ./$SERVICE
+                // """
+                sh """docker buildx build --platform=linux/arm64 -t $REGISTRY/$SERVICE:$IMAGE_TAG --push ./$SERVICE"""
+            }
+        }
+
+        // stage('Push Docker image to registry') {
+        //     steps {
+        //         sh """
+        //             docker -H tcp://host.docker.internal:2375 push $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+        //         """
+        //     }
+        // }
+
+        stage('Deploy to Raspberry') {
+            steps {
+                sshagent (credentials: ['franabad-raspberry']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST '
+                            cd ~/Desktop/docker/containers/banklite/microservices &&
+                            docker compose pull $SERVICE &&
+                            docker compose up -d $SERVICE
+                        '
+                    """
+                }
+            }
+        }
+    }
+}
