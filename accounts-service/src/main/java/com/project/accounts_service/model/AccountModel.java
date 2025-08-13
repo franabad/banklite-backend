@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-//TESTTTTTTTTTTTTTTTTT
 public class AccountModel {
     private String id;
     private String name;
