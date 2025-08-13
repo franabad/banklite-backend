@@ -27,7 +27,10 @@ pipeline {
 //         }
 
         stage('Build project') {
-
+            when {
+                branch 'main'
+                changeset "auth-service/**"
+            }
             steps {
                 sh """
                     cd ./$SERVICE
@@ -37,6 +40,10 @@ pipeline {
         }
 
         stage('Build and push Docker image') {
+            when {
+                branch 'main'
+                changeset "auth-service/**"
+            }
             steps {
                 // sh """
                 //     docker -H tcp://host.docker.internal:2375 buildx create --name buildx_buildkit_tender_heisenberg0 --driver docker-container --use
@@ -55,6 +62,10 @@ pipeline {
         // }
 
         stage('Deploy to Raspberry') {
+            when {
+                branch 'main'
+                changeset "auth-service/**"
+            }
             steps {
                 sshagent (credentials: ['franabad-raspberry']) {
                     sh """
