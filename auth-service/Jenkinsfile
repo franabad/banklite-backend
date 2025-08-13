@@ -40,7 +40,7 @@ pipeline {
 
         stage('Build and push Docker image') {
             when {
-                changeset "*/$SERVICE/**"
+                changeset "$SERVICE/**"
             }
             steps {
                 // sh """
@@ -61,7 +61,7 @@ pipeline {
 
         stage('Deploy to Raspberry') {
             when {
-                changeset "*/$SERVICE/**"
+                changeset "$SERVICE/**"
             }
             steps {
                 sshagent (credentials: ['franabad-raspberry']) {
