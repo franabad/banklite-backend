@@ -32,7 +32,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // TO DO: Adaptar para producción
+    // TO DO: Adaptar para diferenciar entre prod y dev
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
