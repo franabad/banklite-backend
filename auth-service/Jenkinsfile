@@ -25,30 +25,11 @@ pipeline {
 //                 git branch: 'main', url: 'https://github.com/franabad/banklite-backend.git'
 //             }
 //         }
-         stage('Check changes in auth-service') {
-             steps {
-                 script {
-                     // Obtén el conjunto de cambios del commit
-                     def changeSet = github.getChangeSet()
-
-                     // Filtra los archivos modificados, añadidos o eliminados
-                     def modifiedFiles = changeSet.collect { it.getPath() }
-
-                     // Filtra los cambios en la carpeta del microservicio
-                     def relevantChanges = modifiedFiles.findAll { it.startsWith('auth-service/') }
-
-                     if (relevantChanges.isEmpty()) {
-                         echo "No changes detected in auth-service. Skipping pipeline."
-                         currentBuild.result = 'SUCCESS'
-                         error("No relevant changes to process.")
-                     } else {
-                         echo "Changes detected in auth-service:\n${relevantChanges.join('\n')}"
-                     }
-                 }
-             }
-         }
 
         stage('Build project') {
+            when {
+                changeset "*/$SERVICE/**"
+            }
             steps {
                 sh """
                     cd ./$SERVICE
@@ -58,6 +39,9 @@ pipeline {
         }
 
         stage('Build and push Docker image') {
+            when {
+                changeset "*/$SERVICE/**"
+            }
             steps {
                 // sh """
                 //     docker -H tcp://host.docker.internal:2375 buildx create --name buildx_buildkit_tender_heisenberg0 --driver docker-container --use
@@ -76,6 +60,9 @@ pipeline {
         // }
 
         stage('Deploy to Raspberry') {
+            when {
+                changeset "*/$SERVICE/**"
+            }
             steps {
                 sshagent (credentials: ['franabad-raspberry']) {
                     sh """
