@@ -28,7 +28,7 @@ pipeline {
 
         stage('Build project') {
             when {
-                changeset "*/$SERVICE/**"
+                changeset "$SERVICE/**"
             }
             steps {
                 sh """
