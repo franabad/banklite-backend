@@ -6,6 +6,7 @@ import lombok.*;
 import java.util.Date;
 
 // FIX ME: Lombok doesn't work. I have the generate getters and setters manually
+// DONE: Lombok works now ✅
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
