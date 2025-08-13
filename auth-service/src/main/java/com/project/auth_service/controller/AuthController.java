@@ -29,4 +29,10 @@ public class AuthController {
     public ResponseEntity<Boolean> checkSession(HttpServletRequest request) {
         return ResponseEntity.status(OK).body(authService.checkSession(request));
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody LoginRequest registerRequest) {
+        //authService.register(registerRequest);
+        return ResponseEntity.status(CREATED).body("User registered successfully");
+    }
 }
