@@ -10,11 +10,15 @@ import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    @Value("${session.cookie.set-secure}")
+    private boolean setSecureCookie;
 
     private final UserClientService userClientService;
     private final JwtService jwtService;
@@ -68,14 +72,14 @@ public class AuthServiceImpl implements AuthService {
 
         Cookie sessionIdCookie = new Cookie("sessionid", sessionId);
         sessionIdCookie.setHttpOnly(true);
-        sessionIdCookie.setSecure(false); // WARNING - Change this to true in production
+        sessionIdCookie.setSecure(setSecureCookie);
         sessionIdCookie.setPath("/");
         sessionIdCookie.setAttribute("sameSite", "strict");
         sessionIdCookie.setMaxAge(60 * 15); // 15 minutes
 
         Cookie refreshSessionCookie = new Cookie("refreshsession", refreshSession);
         refreshSessionCookie.setHttpOnly(true);
-        refreshSessionCookie.setSecure(false); // WARNING - Change this to true in production
+        refreshSessionCookie.setSecure(setSecureCookie);
         refreshSessionCookie.setPath("/");
         refreshSessionCookie.setAttribute("sameSite", "strict");
         refreshSessionCookie.setMaxAge(60 * 60 * 24 * 7); // 7 days

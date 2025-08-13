@@ -2,6 +2,7 @@ package com.project.auth_service.config;
 
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${client.url}")
+    private String clientUrl;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,7 +44,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("http://localhost:4200") // Permitir solo este origen
+                        .allowedOriginPatterns(clientUrl) // Permitir solo este origen
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Permitir estos métodos
                         .allowedHeaders("*") // Permitir todos los encabezados
                         .allowCredentials(true); // Permitir credenciales (cookies, autenticación HTTP básica, etc.)
