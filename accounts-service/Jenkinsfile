@@ -27,9 +27,9 @@ pipeline {
 //         }
 
         stage('Build project') {
-            when {
-                changeset "$SERVICE/**"
-            }
+//             when {
+//                 changeset "$SERVICE/**"
+//             }
 
             steps {
                 sh """
@@ -40,9 +40,9 @@ pipeline {
         }
 
         stage('Build and push Docker image') {
-            when {
-                changeset "$SERVICE/**"
-            }
+//             when {
+//                 changeset "$SERVICE/**"
+//             }
             steps {
                 // sh """
                 //     docker -H tcp://host.docker.internal:2375 buildx create --name buildx_buildkit_tender_heisenberg0 --driver docker-container --use
@@ -61,9 +61,9 @@ pipeline {
         // }
 
         stage('Deploy to Raspberry') {
-            when {
-                changeset "$SERVICE/**"
-            }
+//             when {
+//                 changeset "$SERVICE/**"
+//             }
             steps {
                 sshagent (credentials: ['franabad-raspberry']) {
                     sh """
