@@ -10,4 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class AccountModel {
+    private String id;
+    private String name;
+    private String email;
+    private String password;
+    private String role; // e.g., "USER", "ADMIN"
+    private boolean isActive; // Indicates if the account is active or not
 }
