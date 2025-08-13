@@ -20,11 +20,11 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/franabad/banklite-backend.git'
-            }
-        }
+//         stage('Checkout') {
+//             steps {
+//                 git branch: 'main', url: 'https://github.com/franabad/banklite-backend.git'
+//             }
+//         }
 
         stage('Build project') {
 
