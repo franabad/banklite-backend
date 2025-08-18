@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -41,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean checkSession(HttpServletRequest request) {
+    public Object checkSession(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null) {
@@ -57,7 +59,10 @@ public class AuthServiceImpl implements AuthService {
                             throw new InvalidTokenException("Session cookie is invalid or expired");
                         }
 
-                        return true;
+                        return Map.of(
+                                "isAuthenticated", true,
+                                "user", user
+                        );
                     }
                     catch (JwtException | IllegalArgumentException e) {
                             throw new InvalidTokenException("Malformed or forged token");

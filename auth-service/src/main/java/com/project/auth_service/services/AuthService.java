@@ -9,5 +9,5 @@ public interface AuthService {
 
     AuthResponse login(LoginRequest loginRequest, HttpServletResponse response);
 
-    boolean checkSession(HttpServletRequest request);
+    Object checkSession(HttpServletRequest request);
 }

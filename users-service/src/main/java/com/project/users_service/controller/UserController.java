@@ -3,6 +3,7 @@ package com.project.users_service.controller;
 
 import static org.springframework.http.HttpStatus.*;
 
+import com.project.users_service.dto.ApiResponse;
 import com.project.users_service.model.LoginRequest;
 import com.project.users_service.model.UserDTO;
 import com.project.users_service.model.UserModel;
@@ -25,9 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.getAllUsers();
-        return ResponseEntity.status(OK).body(users);
+    public ResponseEntity<ApiResponse<UserDTO>> getAllUsers() {
+        return ResponseEntity.status(OK).body(userService.getAllUsers());
     }
 
 //    @GetMapping("/user/{id}")
@@ -44,8 +44,7 @@ public class UserController {
 
     @PostMapping("/user/validate")
     public ResponseEntity<UserDTO> validateUserCredentials(@RequestBody LoginRequest loginRequest) {
-        UserDTO user = userService.validateUserCredentials(loginRequest);
-        return ResponseEntity.status(OK).body(user);
+        return ResponseEntity.status(OK).body(userService.validateUserCredentials(loginRequest));
     }
 
     @PostMapping("/user")

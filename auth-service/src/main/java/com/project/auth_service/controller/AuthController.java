@@ -26,7 +26,7 @@ public class AuthController {
     }
 
     @GetMapping("/check-session")
-    public ResponseEntity<Boolean> checkSession(HttpServletRequest request) {
+    public ResponseEntity<?> checkSession(HttpServletRequest request) {
         return ResponseEntity.status(OK).body(authService.checkSession(request));
     }
 

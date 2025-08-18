@@ -44,7 +44,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns(clientUrl) // Permitir solo este origen
+                        .allowedOriginPatterns("*") // Permitir solo este origen
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Permitir estos métodos
                         .allowedHeaders("*") // Permitir todos los encabezados
                         .allowCredentials(true); // Permitir credenciales (cookies, autenticación HTTP básica, etc.)

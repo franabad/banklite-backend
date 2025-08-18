@@ -1,6 +1,7 @@
 package com.project.users_service.services;
 
 
+import com.project.users_service.dto.ApiResponse;
 import com.project.users_service.exceptions.PasswordInvalidException;
 import com.project.users_service.exceptions.UserAlreadyExistsException;
 import com.project.users_service.exceptions.UserNullException;
@@ -28,16 +29,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserDTO> getAllUsers() {
+    public ApiResponse<UserDTO> getAllUsers() {
         List<UserModel> users = (List<UserModel>) userRepository.findAll();
 
         if (users.isEmpty()) {
             throw new UserNullException("No users found");
         }
 
-        return users.stream()
+        List<UserDTO> usersDTOs = users.stream()
                 .map(userMapper::toUserDTO)
                 .toList();
+
+        return new ApiResponse<>(usersDTOs, usersDTOs.size());
     }
 
     @Override
