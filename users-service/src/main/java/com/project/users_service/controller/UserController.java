@@ -4,14 +4,12 @@ package com.project.users_service.controller;
 import static org.springframework.http.HttpStatus.*;
 
 import com.project.users_service.dto.ApiResponse;
-import com.project.users_service.model.LoginRequest;
-import com.project.users_service.model.UserDTO;
+import com.project.users_service.dto.LoginRequest;
+import com.project.users_service.dto.UserDTO;
 import com.project.users_service.model.UserModel;
 import com.project.users_service.services.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 // FIX ME: Later this has to change and set a global configuration with Spring Security
 @CrossOrigin(origins = "*")

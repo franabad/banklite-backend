@@ -2,11 +2,9 @@ package com.project.users_service.services;
 
 
 import com.project.users_service.dto.ApiResponse;
-import com.project.users_service.model.LoginRequest;
-import com.project.users_service.model.UserDTO;
+import com.project.users_service.dto.LoginRequest;
+import com.project.users_service.dto.UserDTO;
 import com.project.users_service.model.UserModel;
-
-import java.util.List;
 
 public interface UserService {
 
