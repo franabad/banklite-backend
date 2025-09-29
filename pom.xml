@@ -22,6 +22,7 @@
 		<module>accounts-service</module>
 		<module>users-service</module>
 		<module>auth-service</module>
+		<module>gateway-service</module>
 	</modules>
 
 	<dependencies>
